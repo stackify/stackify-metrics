@@ -110,7 +110,7 @@ counter.autoReportZeroValue();
 
 ```java
 // Get a Average metric
-Average average = MetricFactory.getGauge("MyCategory", "MyAverage");
+Average average = MetricFactory.getAverage("MyCategory", "MyAverage");
 ...
 
 // Adds a value to the average metric
@@ -130,7 +130,7 @@ average.autoReportLastValue();
 
 ```java
 // Get a Timer metric
-Timer timer = MetricFactory.getGauge("MyCategory", "MyTimer");
+Timer timer = MetricFactory.getTimer("MyCategory", "MyTimer");
 ...
 
 // Calculates the time taken for this operation using the start time d (java.util.Date)
@@ -154,7 +154,7 @@ timer.autoReportZeroValue();
 
 ```java
 // Get a CounterAndTimer metric (composite of a Counter metric and Timer metric)
-CounterAndTimer counterAndTimer = MetricFactory.getGauge("MyCategory", "MyCounterAndTimer");
+CounterAndTimer counterAndTimer = MetricFactory.getCounterAndTimer("MyCategory", "MyCounterAndTimer");
 ...
 
 // Counter: Adds 1 to the current value of the metric

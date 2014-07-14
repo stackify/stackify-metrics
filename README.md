@@ -85,7 +85,7 @@ counter.increment();
 counter.increment(v);
 ...
 
-// Subtracts v from the current value of the metric
+// Subtracts 1 from the current value of the metric
 counter.decrement();
 ...
 

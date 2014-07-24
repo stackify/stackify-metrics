@@ -1,7 +1,7 @@
 # stackify-metrics
 
 [![Build Status](https://travis-ci.org/stackify/stackify-metrics.png)](https://travis-ci.org/stackify/stackify-metrics)
-[![Coverage Status](https://coveralls.io/repos/stackify/stackify-metrics/badge.png)](https://coveralls.io/r/stackify/stackify-metrics)
+[![Coverage Status](https://coveralls.io/repos/stackify/stackify-metrics/badge.png?branch=master)](https://coveralls.io/r/stackify/stackify-metrics?branch=master)
 
 API for sending custom metrics to Stackify.
 

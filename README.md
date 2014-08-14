@@ -42,6 +42,8 @@ stackify.application=YOUR_APPLICATION_NAME
 stackify.environment=YOUR_ENVIRONMENT
 ```
 
+Note: *If you are logging from a device that has the stackify-agent installed, the environment setting is optional. We will use the environment associated to your device in Stackify.*
+
 #### Gauge Metric
 
 ```java

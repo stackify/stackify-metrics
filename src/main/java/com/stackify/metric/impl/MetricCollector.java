@@ -110,11 +110,7 @@ public class MetricCollector {
 	 */
 	public int flush(final MetricSender sender) throws IOException, HttpException {
 		Preconditions.checkNotNull(sender);
-		
-		if (queue.isEmpty()) {
-			return 0;
-		}
-		
+				
 		// aggregate metrics that were enqueued before the current minute
 		
 		long currentMinute = (System.currentTimeMillis() / MS_IN_MIN) * MS_IN_MIN;

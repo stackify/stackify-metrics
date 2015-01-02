@@ -25,11 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 import com.stackify.api.common.http.HttpException;
+import com.stackify.api.common.lang.EvictingQueue;
 
 /**
  * MetricCollector
@@ -50,7 +50,7 @@ public class MetricCollector {
 	/**
 	 * The queue of objects to be transmitted
 	 */
-	private final Queue<Metric> queue = Queues.synchronizedQueue(EvictingQueue.<Metric>create(1000)); 
+	private final Queue<Metric> queue = Queues.synchronizedQueue(new EvictingQueue<Metric>(1000)); 
 
 	/**
 	 * Initial values for the next iteration

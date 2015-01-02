@@ -186,11 +186,11 @@ Add it as a maven dependency:
 <dependency>
     <groupId>com.stackify</groupId>
     <artifactId>stackify-metrics</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
-Note: *We are dependent on the Guava project from Google. We require version 15.0 (or beyond) for the background thread that sends data back to Stackify.*
+Note: *We are dependent on the Guava project from Google. We require version 14.0.1 (or beyond) for the background thread that sends data back to Stackify.*
 
 ## License
 

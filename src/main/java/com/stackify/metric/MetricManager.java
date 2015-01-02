@@ -16,7 +16,6 @@
 package com.stackify.metric;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
@@ -91,7 +90,7 @@ public class MetricManager {
 			MetricSender sender = new MetricSender(CONFIG, objectMapper, monitorService);
 			
 			BACKGROUND_SERVICE = new MetricBackgroundService(COLLECTOR, sender);
-			BACKGROUND_SERVICE.startAsync().awaitRunning(5, TimeUnit.SECONDS);
+			BACKGROUND_SERVICE.start().get(5, TimeUnit.SECONDS);
 			
 		} catch (Throwable t) {
 			LOGGER.error("Exception starting Stackify Metrics API service", t);
@@ -104,8 +103,8 @@ public class MetricManager {
 	public static synchronized void shutdown() {
 		if (BACKGROUND_SERVICE != null) {
 			try {
-				BACKGROUND_SERVICE.stopAsync().awaitTerminated(5, TimeUnit.SECONDS);
-			} catch (TimeoutException e) {
+				BACKGROUND_SERVICE.stop().get(5, TimeUnit.SECONDS);
+			} catch (Exception e) {
 				Throwables.propagate(e);
 			}
 		}

@@ -38,7 +38,6 @@ public class MetricBackgroundServiceTest {
 		MetricSender sender = Mockito.mock(MetricSender.class);
 		MetricBackgroundService service = new MetricBackgroundService(collector, sender);
 		
-		Assert.assertEquals("Stackify_MetricBackgroundService", service.serviceName());
 		Assert.assertNotNull(service.scheduler());
 	}
 		

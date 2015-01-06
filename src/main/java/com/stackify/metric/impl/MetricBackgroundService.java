@@ -19,13 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.google.common.util.concurrent.AbstractScheduledService;
+import com.stackify.api.common.concurrent.BackgroundService;
 
 /**
  * MetricBackgroundService
  * @author Eric Martin
  */
-public class MetricBackgroundService extends AbstractScheduledService {
+public class MetricBackgroundService extends BackgroundService {
 
 	/**
 	 * Logger
@@ -59,14 +59,6 @@ public class MetricBackgroundService extends AbstractScheduledService {
 		this.sender = sender;
 	}
 	
-	/**
-	 * @see com.google.common.util.concurrent.AbstractScheduledService#serviceName()
-	 */
-	@Override
-	protected String serviceName() {
-		return "Stackify_MetricBackgroundService";
-	}
-
 	/**
 	 * @see com.google.common.util.concurrent.AbstractScheduledService#scheduler()
 	 */

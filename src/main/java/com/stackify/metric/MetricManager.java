@@ -15,14 +15,12 @@
  */
 package com.stackify.metric;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 import com.stackify.api.common.ApiConfiguration;
 import com.stackify.api.common.ApiConfigurations;
 import com.stackify.api.common.AppIdentityService;
@@ -90,7 +88,7 @@ public class MetricManager {
 			MetricSender sender = new MetricSender(CONFIG, objectMapper, monitorService);
 			
 			BACKGROUND_SERVICE = new MetricBackgroundService(COLLECTOR, sender);
-			BACKGROUND_SERVICE.start().get(5, TimeUnit.SECONDS);
+			BACKGROUND_SERVICE.start();
 			
 		} catch (Throwable t) {
 			LOGGER.error("Exception starting Stackify Metrics API service", t);
@@ -103,9 +101,9 @@ public class MetricManager {
 	public static synchronized void shutdown() {
 		if (BACKGROUND_SERVICE != null) {
 			try {
-				BACKGROUND_SERVICE.stop().get(5, TimeUnit.SECONDS);
-			} catch (Exception e) {
-				Throwables.propagate(e);
+				BACKGROUND_SERVICE.stop();
+			} catch (Throwable t) {
+				LOGGER.error("Exception stopping Stackify Metrics API service", t);
 			}
 		}
 	}

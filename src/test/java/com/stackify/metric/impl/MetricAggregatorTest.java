@@ -16,14 +16,13 @@
 package com.stackify.metric.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * MetricAggregatorTest
@@ -105,12 +104,14 @@ public class MetricAggregatorTest {
 	public void testAutoReportZero() {
 		MetricIdentity identity = new MetricIdentity("category", "name", MetricMonitorType.COUNTER);
 		
-		Map<MetricIdentity, Double> lastValues = Maps.newHashMap();
+		Map<MetricIdentity, Double> lastValues = new HashMap<MetricIdentity, Double>();
 		lastValues.put(identity, Double.valueOf(14.0));
 
 		MetricAggregator aggregator = new MetricAggregator(System.currentTimeMillis(), lastValues);
 		
-		aggregator.autoReportZero(Sets.newHashSet(identity));
+		Set<MetricIdentity> arz = new HashSet<MetricIdentity>();
+		arz.add(identity);
+		aggregator.autoReportZero(arz);
 		
 		List<MetricAggregate> aggregates = aggregator.getAggregates();
 
@@ -129,12 +130,14 @@ public class MetricAggregatorTest {
 	public void testAutoReportLast() {
 		MetricIdentity identity = new MetricIdentity("category", "name", MetricMonitorType.COUNTER);
 		
-		Map<MetricIdentity, Double> lastValues = Maps.newHashMap();
+		Map<MetricIdentity, Double> lastValues = new HashMap<MetricIdentity, Double>();
 		lastValues.put(identity, Double.valueOf(14.0));
 		
 		MetricAggregator aggregator = new MetricAggregator(System.currentTimeMillis(), lastValues);
 		
-		aggregator.autoReportLast(Sets.newHashSet(identity));
+		Set<MetricIdentity> arl = new HashSet<MetricIdentity>();
+		arl.add(identity);
+		aggregator.autoReportLast(arl);
 		
 		List<MetricAggregate> aggregates = aggregator.getAggregates();
 
@@ -153,11 +156,13 @@ public class MetricAggregatorTest {
 	public void testAutoReportLastWithoutLast() {
 		MetricIdentity identity = new MetricIdentity("category", "name", MetricMonitorType.COUNTER);
 		
-		Map<MetricIdentity, Double> lastValues = Maps.newHashMap();
+		Map<MetricIdentity, Double> lastValues = new HashMap<MetricIdentity, Double>();
 		
 		MetricAggregator aggregator = new MetricAggregator(System.currentTimeMillis(), lastValues);
 		
-		aggregator.autoReportLast(Sets.newHashSet(identity));
+		Set<MetricIdentity> arl = new HashSet<MetricIdentity>();
+		arl.add(identity);
+		aggregator.autoReportLast(arl);
 		
 		List<MetricAggregate> aggregates = aggregator.getAggregates();
 

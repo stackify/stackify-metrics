@@ -18,8 +18,8 @@ package com.stackify.metric.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
 import com.stackify.api.common.concurrent.BackgroundService;
+import com.stackify.api.common.util.Preconditions;
 
 /**
  * MetricBackgroundService
@@ -60,11 +60,10 @@ public class MetricBackgroundService extends BackgroundService {
 	}
 	
 	/**
-	 * @see com.google.common.util.concurrent.AbstractScheduledService#scheduler()
+	 * @see com.stackify.api.common.concurrent.BackgroundService#startUp()
 	 */
 	@Override
-	protected Scheduler scheduler() {
-		return scheduler;
+	protected void startUp() {
 	}
 
 	/**
@@ -82,6 +81,14 @@ public class MetricBackgroundService extends BackgroundService {
 	}
 
 	/**
+	 * @see com.stackify.api.common.concurrent.BackgroundService#getNextScheduleDelayMilliseconds()
+	 */
+	@Override
+	protected long getNextScheduleDelayMilliseconds() {
+		return scheduler.getScheduleDelay();
+	}
+
+	/**
 	 * @see com.google.common.util.concurrent.AbstractScheduledService#shutDown()
 	 */
 	@Override
@@ -91,7 +98,5 @@ public class MetricBackgroundService extends BackgroundService {
 		} catch (Throwable t) {
 			LOGGER.info("Exception flushing metrics collector during shut down", t);
 		}
-		
-		super.shutDown();
 	}
 }

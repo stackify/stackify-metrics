@@ -16,6 +16,8 @@
 package com.stackify.metric.impl;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -24,11 +26,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.stackify.api.common.collect.SynchronizedEvictingQueue;
 import com.stackify.api.common.http.HttpException;
+import com.stackify.api.common.util.Preconditions;
 
 /**
  * MetricCollector
@@ -54,17 +54,17 @@ public class MetricCollector {
 	/**
 	 * Initial values for the next iteration
 	 */
-	private final Map<MetricIdentity, Double> lastValues = Maps.newHashMap();
+	private final Map<MetricIdentity, Double> lastValues = new HashMap<MetricIdentity, Double>();
 	
 	/**
 	 * Metrics that should auto report zero if there isn't a current value
 	 */
-	private final Set<MetricIdentity> autoReportZeroMetrics = Sets.newHashSet();
+	private final Set<MetricIdentity> autoReportZeroMetrics = new HashSet<MetricIdentity>();
 	
 	/**
 	 * Metrics that should auto report the last value if there isn't a current value
 	 */
-	private final Set<MetricIdentity> autoReportLastMetrics = Sets.newHashSet();
+	private final Set<MetricIdentity> autoReportLastMetrics = new HashSet<MetricIdentity>();
 	
 	/**
 	 * The last time the collector was flushed

@@ -15,6 +15,8 @@
  */
 package com.stackify.metric.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,9 +24,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.stackify.api.common.util.Preconditions;
 
 /**
  * MetricAggregator
@@ -40,7 +40,7 @@ public class MetricAggregator {
 	/**
 	 * Map from metric key to utc minute to metric aggregate)
 	 */
-	private final Map<MetricIdentity, Map<Long, MetricAggregate>> aggregates = Maps.newHashMap();
+	private final Map<MetricIdentity, Map<Long, MetricAggregate>> aggregates = new HashMap<MetricIdentity, Map<Long, MetricAggregate>>();
 	
 	/**
 	 * Current minute
@@ -69,7 +69,7 @@ public class MetricAggregator {
 	 */
 	public List<MetricAggregate> getAggregates() {
 		
-		List<MetricAggregate> flatAggregates = Lists.newArrayList();
+		List<MetricAggregate> flatAggregates = new ArrayList<MetricAggregate>();
 
 		for (Map<Long, MetricAggregate> metricAggregates : aggregates.values()) {		    
 			for (MetricAggregate aggregate : metricAggregates.values()) {
@@ -180,7 +180,7 @@ public class MetricAggregator {
 		// get the map from utc minute to aggregate for this metric
 
 		if (!aggregates.containsKey(identity)) {
-			aggregates.put(identity, Maps.<Long, MetricAggregate>newHashMap());			
+			aggregates.put(identity, new HashMap<Long, MetricAggregate>());			
 		}
 		
 		Map<Long, MetricAggregate> metricAggregates = aggregates.get(identity);

@@ -27,8 +27,6 @@ import com.stackify.api.common.http.HttpException;
  * 
  * @author Eric Martin
  */
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest({MetricBackgroundServiceScheduler.class, System.class})
 public class MetricBackgroundServiceSchedulerTest {
 
 	/**
@@ -39,7 +37,6 @@ public class MetricBackgroundServiceSchedulerTest {
 		MetricBackgroundServiceScheduler scheduler = new MetricBackgroundServiceScheduler();
 		
 		Assert.assertEquals(5000, scheduler.getScheduleDelay());
-		Assert.assertNotNull(scheduler.getNextSchedule());
 	}
 	
 	/**
@@ -52,7 +49,6 @@ public class MetricBackgroundServiceSchedulerTest {
 		scheduler.update(50);
 		
 		Assert.assertEquals(5000, scheduler.getScheduleDelay());
-		Assert.assertNotNull(scheduler.getNextSchedule());
 	}
 	
 	/**
@@ -65,7 +61,6 @@ public class MetricBackgroundServiceSchedulerTest {
 		scheduler.update(new HttpException(HttpURLConnection.HTTP_UNAUTHORIZED));
 
 		Assert.assertEquals(300000, scheduler.getScheduleDelay());
-		Assert.assertNotNull(scheduler.getNextSchedule());
 	}
 		
 	/**
@@ -78,7 +73,6 @@ public class MetricBackgroundServiceSchedulerTest {
 		scheduler.update(new HttpException(HttpURLConnection.HTTP_INTERNAL_ERROR));
 
 		Assert.assertEquals(15000, scheduler.getScheduleDelay());
-		Assert.assertNotNull(scheduler.getNextSchedule());
 	}
 
 	/**
@@ -91,11 +85,9 @@ public class MetricBackgroundServiceSchedulerTest {
 		scheduler.update(new HttpException(HttpURLConnection.HTTP_INTERNAL_ERROR));
 
 		Assert.assertEquals(15000, scheduler.getScheduleDelay());
-		Assert.assertNotNull(scheduler.getNextSchedule());
 
 		scheduler.update(50);
 		
 		Assert.assertEquals(5000, scheduler.getScheduleDelay());
-		Assert.assertNotNull(scheduler.getNextSchedule());
 	}
 }

@@ -25,7 +25,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Optional;
 import com.stackify.api.common.ApiConfiguration;
 import com.stackify.api.common.http.HttpClient;
 
@@ -48,7 +47,7 @@ public class MetricSenderTest {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		MetricMonitorService monitorService = Mockito.mock(MetricMonitorService.class);
-		Mockito.when(monitorService.getMonitorId(Mockito.any(MetricIdentity.class))).thenReturn(Optional.of(14));
+		Mockito.when(monitorService.getMonitorId(Mockito.any(MetricIdentity.class))).thenReturn(14);
 		
 		HttpClient httpClient = PowerMockito.mock(HttpClient.class);
 		PowerMockito.whenNew(HttpClient.class).withAnyArguments().thenReturn(httpClient);
@@ -75,7 +74,7 @@ public class MetricSenderTest {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		MetricMonitorService monitorService = Mockito.mock(MetricMonitorService.class);
-		Mockito.when(monitorService.getMonitorId(Mockito.any(MetricIdentity.class))).thenReturn(Optional.<Integer>absent());
+		Mockito.when(monitorService.getMonitorId(Mockito.any(MetricIdentity.class))).thenReturn(null);
 		
 		HttpClient httpClient = PowerMockito.mock(HttpClient.class);
 		PowerMockito.whenNew(HttpClient.class).withAnyArguments().thenReturn(httpClient);

@@ -15,8 +15,7 @@
  */
 package com.stackify.metric.impl;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import com.stackify.api.common.util.Preconditions;
 
 /**
  * MetricAggregate
@@ -111,16 +110,11 @@ public class MetricAggregate {
 
 	/**
 	 * @see java.lang.Object#toString()
-	 * @return A string representation of the object
 	 */
 	@Override
 	public String toString() {
-	    return Objects.toStringHelper(this)
-	                  .omitNullValues()
-	                  .add("identity", identity)
-	                  .add("occurredMillis", occurredMillis)
-	                  .add("value", value)
-	                  .add("count", count)
-	                  .toString();
+		return "MetricAggregate [identity=" + identity + ", occurredMillis="
+				+ occurredMillis + ", value=" + value + ", count=" + count
+				+ "]";
 	}
 }

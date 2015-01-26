@@ -24,7 +24,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Optional;
 import com.stackify.api.AppIdentity;
 import com.stackify.api.common.ApiConfiguration;
 import com.stackify.api.common.AppIdentityService;
@@ -47,7 +46,7 @@ public class MetricMonitorServiceTest {
 		ApiConfiguration apiConfig = Mockito.mock(ApiConfiguration.class);
 		ObjectMapper objectMapper = new ObjectMapper();
 		AppIdentityService appIdentityService = Mockito.mock(AppIdentityService.class);
-		Mockito.when(appIdentityService.getAppIdentity()).thenReturn(Optional.<AppIdentity>absent());
+		Mockito.when(appIdentityService.getAppIdentity()).thenReturn(null);
 
 		HttpClient httpClient = PowerMockito.mock(HttpClient.class);
 		PowerMockito.whenNew(HttpClient.class).withAnyArguments().thenReturn(httpClient);
@@ -57,10 +56,9 @@ public class MetricMonitorServiceTest {
 
 		MetricIdentity identity = new MetricIdentity("category", "name", MetricMonitorType.COUNTER);
 		
-		Optional<Integer> id = service.getMonitorId(identity);
+		Integer id = service.getMonitorId(identity);
 
-		Assert.assertNotNull(id);
-		Assert.assertFalse(id.isPresent());
+		Assert.assertNull(id);
 		
 		Mockito.verifyZeroInteractions(httpClient);
 	}
@@ -74,7 +72,7 @@ public class MetricMonitorServiceTest {
 		ApiConfiguration apiConfig = Mockito.mock(ApiConfiguration.class);
 		ObjectMapper objectMapper = new ObjectMapper();
 		AppIdentityService appIdentityService = Mockito.mock(AppIdentityService.class);
-		Mockito.when(appIdentityService.getAppIdentity()).thenReturn(Optional.of(Mockito.mock(AppIdentity.class)));
+		Mockito.when(appIdentityService.getAppIdentity()).thenReturn(Mockito.mock(AppIdentity.class));
 
 		HttpClient httpClient = PowerMockito.mock(HttpClient.class);
 		PowerMockito.whenNew(HttpClient.class).withAnyArguments().thenReturn(httpClient);
@@ -84,21 +82,18 @@ public class MetricMonitorServiceTest {
 
 		MetricIdentity identity = new MetricIdentity("category", "name", MetricMonitorType.COUNTER);
 		
-		Optional<Integer> id = service.getMonitorId(identity);
+		Integer id = service.getMonitorId(identity);
 
 		Assert.assertNotNull(id);
-		Assert.assertTrue(id.isPresent());
-		Assert.assertEquals(14, id.get().intValue());
+		Assert.assertEquals(14, id.intValue());
 		
-		Optional<Integer> cachedId = service.getMonitorId(identity);
+		Integer cachedId = service.getMonitorId(identity);
 		
 		Assert.assertNotNull(cachedId);
-		Assert.assertTrue(cachedId.isPresent());
-		Assert.assertEquals(14, cachedId.get().intValue());
+		Assert.assertEquals(14, cachedId.intValue());
 		
-		Optional<Integer> absentId = service.getMonitorId(new MetricIdentity("does-not", "exist", MetricMonitorType.COUNTER));
+		Integer absentId = service.getMonitorId(new MetricIdentity("does-not", "exist", MetricMonitorType.COUNTER));
 
-		Assert.assertNotNull(absentId);
-		Assert.assertFalse(absentId.isPresent());
+		Assert.assertNull(absentId);
 	}
 }

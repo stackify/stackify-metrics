@@ -23,7 +23,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.google.common.util.concurrent.ListenableFuture;
 import com.stackify.api.common.AppIdentityService;
 import com.stackify.metric.impl.MetricBackgroundService;
 import com.stackify.metric.impl.MetricCollector;
@@ -54,8 +53,6 @@ public class MetricManagerTest {
 		PowerMockito.whenNew(MetricSender.class).withAnyArguments().thenReturn(sender);
 
 		MetricBackgroundService background = PowerMockito.mock(MetricBackgroundService.class);
-		Mockito.when(background.start()).thenReturn(Mockito.mock(ListenableFuture.class));
-		Mockito.when(background.stop()).thenReturn(Mockito.mock(ListenableFuture.class));
 		PowerMockito.whenNew(MetricBackgroundService.class).withAnyArguments().thenReturn(background);
 		
 		MetricManager.shutdown();

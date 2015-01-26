@@ -16,9 +16,7 @@
 package com.stackify.metric.impl;
 
 import java.net.HttpURLConnection;
-import java.util.concurrent.TimeUnit;
 
-import com.google.common.util.concurrent.AbstractScheduledService.CustomScheduler;
 import com.stackify.api.common.http.HttpException;
 
 /**
@@ -26,7 +24,7 @@ import com.stackify.api.common.http.HttpException;
  * 
  * @author Eric Martin
  */
-public class MetricBackgroundServiceScheduler extends CustomScheduler {
+public class MetricBackgroundServiceScheduler {
 		
 	/**
 	 * Five seconds (milliseconds)
@@ -98,13 +96,5 @@ public class MetricBackgroundServiceScheduler extends CustomScheduler {
 	 */
 	public long getScheduleDelay() {
 		return scheduleDelay;
-	}
-
-	/**
-	 * @see com.google.common.util.concurrent.AbstractScheduledService.CustomScheduler#getNextSchedule()
-	 */
-	@Override
-	protected Schedule getNextSchedule() {
-		return new Schedule(scheduleDelay, TimeUnit.MILLISECONDS);
 	}
 }

@@ -16,6 +16,7 @@
 package com.stackify.metric.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,12 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.stackify.api.common.ApiConfiguration;
 import com.stackify.api.common.http.HttpClient;
 import com.stackify.api.common.http.HttpException;
+import com.stackify.api.common.util.Preconditions;
 
 /**
  * MetricSender
@@ -81,15 +80,15 @@ public class MetricSender {
 		
 		// build the json objects
 		
-		List<JsonMetric> metrics = Lists.newArrayListWithCapacity(aggregates.size());
+		List<JsonMetric> metrics = new ArrayList<JsonMetric>(aggregates.size());
 		
 		for (MetricAggregate aggregate : aggregates) {
 			
-			Optional<Integer> monitorId = monitorService.getMonitorId(aggregate.getIdentity());
+			Integer monitorId = monitorService.getMonitorId(aggregate.getIdentity());
 			
-			if (monitorId.isPresent()) {
+			if (monitorId != null) {
 				JsonMetric.Builder builder = JsonMetric.newBuilder();
-				builder.monitorId(monitorId.get());
+				builder.monitorId(monitorId);
 				builder.value(Double.valueOf(aggregate.getValue()));
 				builder.count(Integer.valueOf(aggregate.getCount()));
 				builder.occurredUtc(new Date(aggregate.getOccurredMillis()));

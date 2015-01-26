@@ -15,7 +15,6 @@
  */
 package com.stackify.metric.impl;
 
-import com.google.common.base.Objects;
 
 /**
  * Metric
@@ -147,16 +146,11 @@ public class Metric {
 
 	/**
 	 * @see java.lang.Object#toString()
-	 * @return A string representation of the object
 	 */
 	@Override
 	public String toString() {
-	    return Objects.toStringHelper(this)
-	                  .omitNullValues()
-	                  .add("identity", identity)
-	                  .add("occurredMillis", occurredMillis)
-	                  .add("value", value)
-	                  .add("isIncrement", isIncrement)
-	                  .toString();
+		return "Metric [identity=" + identity + ", occurredMillis="
+				+ occurredMillis + ", value=" + value + ", isIncrement="
+				+ isIncrement + "]";
 	}
 }

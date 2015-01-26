@@ -15,8 +15,7 @@
  */
 package com.stackify.metric.impl;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import com.stackify.api.common.util.Preconditions;
 
 /**
  * MetricIdentity
@@ -80,46 +79,51 @@ public class MetricIdentity {
 
 	/**
 	 * @see java.lang.Object#hashCode()
-	 * @return A hash code of this object
 	 */
 	@Override
 	public int hashCode() {
-	    return Objects.hashCode(category, name, type);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
 	}
 
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
-	 * @param other The reference object with which to compare
-	 * @return True if this object is the same as the other object, false otherwise
 	 */
 	@Override
-	public boolean equals(final Object other) {
-	    if (other == this) {
-	        return true;
-	    }
-	    
-	    if (!(other instanceof MetricIdentity)) {
-	        return false;
-	    }
-	    
-	    final MetricIdentity otherMetricIdentity = (MetricIdentity) other;
-	    
-	    return Objects.equal(category, otherMetricIdentity.category)
-	        && Objects.equal(name, otherMetricIdentity.name)
-	        && Objects.equal(type, otherMetricIdentity.type);
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof MetricIdentity))
+			return false;
+		MetricIdentity other = (MetricIdentity) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
-	 * @return A string representation of the object
 	 */
 	@Override
 	public String toString() {
-	    return Objects.toStringHelper(this)
-	                  .omitNullValues()
-	                  .add("category", category)
-	                  .add("name", name)
-	                  .add("type", type)
-	                  .toString();
+		return "MetricIdentity [category=" + category + ", name=" + name
+				+ ", type=" + type + "]";
 	}
 }

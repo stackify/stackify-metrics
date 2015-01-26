@@ -16,6 +16,7 @@
 package com.stackify.metric.impl;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -24,14 +25,12 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import com.stackify.api.AppIdentity;
 import com.stackify.api.common.ApiConfiguration;
 import com.stackify.api.common.AppIdentityService;
 import com.stackify.api.common.http.HttpClient;
 import com.stackify.api.common.http.HttpException;
+import com.stackify.api.common.util.Preconditions;
 
 /**
  * MetricMonitorService
@@ -52,12 +51,12 @@ public class MetricMonitorService {
 	/**
 	 * Timestamp of the last queries
 	 */
-	private final Map<MetricIdentity, Long> lastQueries = Maps.newHashMap();
+	private final Map<MetricIdentity, Long> lastQueries = new HashMap<MetricIdentity, Long>();
 	
 	/**
 	 * The cached monitor ids
 	 */
-	private Map<MetricIdentity, Integer> monitorIds = Maps.newHashMap();
+	private Map<MetricIdentity, Integer> monitorIds = new HashMap<MetricIdentity, Integer>();
 	
 	/**
 	 * API configuration
@@ -96,11 +95,11 @@ public class MetricMonitorService {
 	 * @throws IOException
 	 * @throws HttpException
 	 */
-	public Optional<Integer> getMonitorId(final MetricIdentity identity) throws IOException, HttpException {
+	public Integer getMonitorId(final MetricIdentity identity) throws IOException, HttpException {
 		Preconditions.checkNotNull(identity);
 		
 		if (monitorIds.containsKey(identity)) {
-			return Optional.of(monitorIds.get(identity));
+			return monitorIds.get(identity);
 		}
 		
 		long lastQuery = 0;
@@ -115,11 +114,11 @@ public class MetricMonitorService {
 			try {
 				lastQueries.put(identity, lastQuery);
 				
-				Optional<AppIdentity> appIdentity = appIdentityService.getAppIdentity();
+				AppIdentity appIdentity = appIdentityService.getAppIdentity();
 				
-				if (appIdentity.isPresent()) {
+				if (appIdentity != null) {
 					
-					int monitorId = getMetricInfo(identity, appIdentity.get());
+					int monitorId = getMetricInfo(identity, appIdentity);
 					
 					LOGGER.debug("Metric {} monitor id: {}", identity, monitorId);
 					
@@ -133,10 +132,10 @@ public class MetricMonitorService {
 		}
 
 		if (monitorIds.containsKey(identity)) {
-			return Optional.of(monitorIds.get(identity));
+			return monitorIds.get(identity);
 		}
 		
-		return Optional.absent();
+		return null;
 	}
 
 	/**

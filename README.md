@@ -186,7 +186,7 @@ Add it as a maven dependency:
 <dependency>
     <groupId>com.stackify</groupId>
     <artifactId>stackify-metrics</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 </dependency>
 ```
 

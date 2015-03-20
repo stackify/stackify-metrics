@@ -81,7 +81,7 @@ public class MetricManager {
 							
 			ObjectMapper objectMapper = new ObjectMapper();
 			
-			AppIdentityService appIdentityService = new AppIdentityService(CONFIG, objectMapper);
+			AppIdentityService appIdentityService = new AppIdentityService(CONFIG, objectMapper, true);
 
 			MetricMonitorService monitorService = new MetricMonitorService(CONFIG, objectMapper, appIdentityService);
 			

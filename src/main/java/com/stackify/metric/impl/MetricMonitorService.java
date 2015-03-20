@@ -165,11 +165,18 @@ public class MetricMonitorService {
 				
 		byte[] jsonBytes = objectMapper.writer().writeValueAsBytes(request);
 		
+		if (LOGGER.isDebugEnabled())
+		{
+			LOGGER.debug("GetMetricInfo Request: {}", new String(jsonBytes, "UTF-8"));
+		}
+
 		// post to stackify
 		
 		HttpClient httpClient = new HttpClient(apiConfig);
 		String responseString = httpClient.post("/Metrics/GetMetricInfo", jsonBytes);
 		
+		LOGGER.debug("GetMetricInfo Response: {}", responseString);
+
 		// deserialize the response and return the monitor id
 		
 		ObjectReader jsonReader = objectMapper.reader(new TypeReference<JsonGetMetricInfoResponse>(){});

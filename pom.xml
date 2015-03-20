@@ -3,7 +3,7 @@
 
 	<groupId>com.stackify</groupId>
 	<artifactId>stackify-metrics</artifactId>
-	<version>1.1.2-SNAPSHOT</version>
+	<version>1.1.2</version>
 	
 	<name>Stackify Metrics</name>
 	<description>Stackify Metrics</description>
@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>com.stackify</groupId>
 			<artifactId>stackify-api-java</artifactId>
-			<version>2.1.2-SNAPSHOT</version>
+			<version>2.1.2</version>
 		</dependency>
 		
 		<!-- Runtime dependencies -->

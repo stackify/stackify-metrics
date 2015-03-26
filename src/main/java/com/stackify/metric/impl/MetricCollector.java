@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stackify.api.common.collect.SynchronizedEvictingQueue;
 import com.stackify.api.common.http.HttpException;
 import com.stackify.api.common.util.Preconditions;
 
@@ -49,7 +49,7 @@ public class MetricCollector {
 	/**
 	 * The queue of objects to be transmitted
 	 */
-	private final Queue<Metric> queue = new ConcurrentLinkedQueue<Metric>(); 
+	private final Queue<Metric> queue = new SynchronizedEvictingQueue<Metric>(100000); 
 
 	/**
 	 * Initial values for the next iteration

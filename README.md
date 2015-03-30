@@ -14,6 +14,17 @@ Sign Up for a Trial:
 
 http://www.stackify.com/sign-up/
 
+## Installation
+
+Add it as a maven dependency:
+```xml
+<dependency>
+    <groupId>com.stackify</groupId>
+    <artifactId>stackify-metrics</artifactId>
+    <version>INSERT_LATEST_MAVEN_CENTRAL_VERSION</version>
+</dependency>
+```
+
 ## Usage
 
 There are four different types of metrics: 
@@ -178,17 +189,6 @@ counterAndTimer.durationMs(d);
 // Automatically report 0 for the value of the metric if not set
 counterAndTimer.autoReportZeroValue();
 ...
-```
-
-## Installation
-
-Add it as a maven dependency:
-```xml
-<dependency>
-    <groupId>com.stackify</groupId>
-    <artifactId>stackify-metrics</artifactId>
-    <version>1.1.4</version>
-</dependency>
 ```
 
 ## License

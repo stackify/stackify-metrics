@@ -1,5 +1,6 @@
 # stackify-metrics
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.stackify/stackify-metrics.svg)](http://mvnrepository.com/artifact/com.stackify/stackify-metrics)
 [![Build Status](https://travis-ci.org/stackify/stackify-metrics.png)](https://travis-ci.org/stackify/stackify-metrics)
 [![Coverage Status](https://coveralls.io/repos/stackify/stackify-metrics/badge.png?branch=master)](https://coveralls.io/r/stackify/stackify-metrics?branch=master)
 

@@ -89,6 +89,19 @@ public class MetricMonitorService {
 	}
 	
 	/**
+	 * @return Client device id
+	 */
+	public Integer getDeviceId() {
+		AppIdentity appIdentity = appIdentityService.getAppIdentity();
+		
+		if (appIdentity != null) {
+			return appIdentity.getDeviceId();
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Gets the monitor id for this metric
 	 * @param identity The metric identity
 	 * @return The monitor id (optional)

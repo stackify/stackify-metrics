@@ -63,6 +63,12 @@ public class JsonMetric {
 	private final Integer monitorTypeId;
 
 	/**
+	 * Client device id
+	 */
+	@JsonProperty("ClientDeviceID")
+	private final Integer clientDeviceId;
+	
+	/**
 	 * @return the monitorId
 	 */
 	public Integer getMonitorId() {
@@ -98,6 +104,13 @@ public class JsonMetric {
 	}
 
 	/**
+	 * @return the clientDeviceId
+	 */
+	public Integer getClientDeviceId() {
+		return clientDeviceId;
+	}
+
+	/**
 	 * @param builder The Builder object that contains all of the values for initialization
 	 */
 	private JsonMetric(final Builder builder) {
@@ -106,6 +119,7 @@ public class JsonMetric {
 	    this.count = builder.count;
 	    this.occurredUtc = builder.occurredUtc;
 	    this.monitorTypeId = builder.monitorTypeId;
+	    this.clientDeviceId = builder.clientDeviceId;
 	}
 
 	/**
@@ -153,6 +167,12 @@ public class JsonMetric {
 		private Integer monitorTypeId;
 		
 		/**
+		 * The builder's clientDeviceId
+		 */
+		@JsonProperty("ClientDeviceID")
+		private Integer clientDeviceId;
+
+		/**
 		 * Sets the builder's monitorId
 		 * @param monitorId The monitorId to be set
 		 * @return Reference to the current object
@@ -199,6 +219,16 @@ public class JsonMetric {
 		 */
 		public Builder monitorTypeId(final Integer monitorTypeId) {
 		    this.monitorTypeId = monitorTypeId;
+		    return this;
+		}
+		
+		/**
+		 * Sets the builder's clientDeviceId
+		 * @param clientDeviceId The clientDeviceId to be set
+		 * @return Reference to the current object
+		 */
+		public Builder clientDeviceId(final Integer clientDeviceId) {
+		    this.clientDeviceId = clientDeviceId;
 		    return this;
 		}
 		

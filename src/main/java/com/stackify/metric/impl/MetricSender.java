@@ -19,16 +19,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackify.api.common.ApiConfiguration;
-import com.stackify.api.common.collect.SynchronizedEvictingQueue;
 import com.stackify.api.common.http.HttpClient;
 import com.stackify.api.common.http.HttpException;
+import com.stackify.api.common.http.HttpResendQueue;
 import com.stackify.api.common.util.Preconditions;
 
 /**
@@ -58,9 +57,9 @@ public class MetricSender {
 	private final MetricMonitorService monitorService;
 	
 	/**
-	 * The queue of requests to be transmitted (60 minutes)
+	 * The queue of requests to be retransmitted (60 minutes of metric aggregates)
 	 */
-	private final Queue<byte[]> resendQueue = new SynchronizedEvictingQueue<byte[]>(60); 
+	private final HttpResendQueue resendQueue = new HttpResendQueue(60); 
 	
 	/**
 	 * Constructor
@@ -89,12 +88,8 @@ public class MetricSender {
 		
 		// retransmit any metrics on the resend queue
 		
-		try {
-			drainResendQueue(httpClient);
-		} catch (Throwable t) {
-			LOGGER.warn("Failure retransmitting queued metric requests", t);
-		}		
-
+		resendQueue.drain(httpClient, "/Metrics/SubmitMetricsByID");
+		
 		// build the json objects
 		
 		List<JsonMetric> metrics = new ArrayList<JsonMetric>(aggregates.size());
@@ -110,6 +105,7 @@ public class MetricSender {
 				builder.count(Integer.valueOf(aggregate.getCount()));
 				builder.occurredUtc(new Date(aggregate.getOccurredMillis()));
 				builder.monitorTypeId(Integer.valueOf(aggregate.getIdentity().getType().getId()));
+				builder.clientDeviceId(monitorService.getDeviceId());
 				
 				metrics.add(builder.build());
 			} else {
@@ -129,30 +125,12 @@ public class MetricSender {
 			httpClient.post("/Metrics/SubmitMetricsByID", jsonBytes);
 		} catch (IOException t) {
 			LOGGER.info("Queueing metrics for retransmission due to IOException");
-			resendQueue.offer(jsonBytes);
+			resendQueue.offer(jsonBytes, t);
 			throw t;			
 		} catch (HttpException t) {
 			LOGGER.info("Queueing metrics for retransmission due to HttpException");
-			resendQueue.offer(jsonBytes);
+			resendQueue.offer(jsonBytes, t);
 			throw t;
-		}
-	}
-		
-	/**
-	 * Drains the resend queue
-	 * @param httpClient HTTP Client
-	 * @throws IOException 
-	 * @throws HttpException 
-	 */
-	private void drainResendQueue(final HttpClient httpClient) throws IOException, HttpException {
-		if (!resendQueue.isEmpty()) {
-			LOGGER.info("Attempting to retransmit {} queued metric requests", resendQueue.size());
-			
-			while (!resendQueue.isEmpty()) {
-				byte[] jsonBytes = resendQueue.peek();
-				httpClient.post("/Metrics/SubmitMetricsByID", jsonBytes);
-				resendQueue.remove();
-			}
 		}
 	}
 }

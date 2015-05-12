@@ -1,5 +1,6 @@
 # stackify-metrics
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.stackify/stackify-metrics.svg)](http://mvnrepository.com/artifact/com.stackify/stackify-metrics)
 [![Build Status](https://travis-ci.org/stackify/stackify-metrics.png)](https://travis-ci.org/stackify/stackify-metrics)
 [![Coverage Status](https://coveralls.io/repos/stackify/stackify-metrics/badge.png?branch=master)](https://coveralls.io/r/stackify/stackify-metrics?branch=master)
 
@@ -12,6 +13,17 @@ http://docs.stackify.com/m/7787/l/232533
 Sign Up for a Trial:
 
 http://www.stackify.com/sign-up/
+
+## Installation
+
+Add it as a maven dependency:
+```xml
+<dependency>
+    <groupId>com.stackify</groupId>
+    <artifactId>stackify-metrics</artifactId>
+    <version>INSERT_LATEST_MAVEN_CENTRAL_VERSION</version>
+</dependency>
+```
 
 ## Usage
 
@@ -177,17 +189,6 @@ counterAndTimer.durationMs(d);
 // Automatically report 0 for the value of the metric if not set
 counterAndTimer.autoReportZeroValue();
 ...
-```
-
-## Installation
-
-Add it as a maven dependency:
-```xml
-<dependency>
-    <groupId>com.stackify</groupId>
-    <artifactId>stackify-metrics</artifactId>
-    <version>1.1.4</version>
-</dependency>
 ```
 
 ## License

@@ -56,6 +56,23 @@ stackify.environment=YOUR_ENVIRONMENT
 
 Note: *If you are logging from a device that has the stackify-agent installed, the environment setting is optional. We will use the environment associated to your device in Stackify.*
 
+#### Programmatic Configuration (Optional)
+
+Instead of providing a properties file in your classpath, you can configure the Metrics API programmatically:
+```
+ApiConfiguration.Builder builder = ApiConfiguration.newBuilder();
+builder.apiKey("YOUR_API_KEY");
+builder.application("YOUR_APPLICATION_NAME");
+builder.environment("YOUR_ENVIRONMENT");
+ApiConfiguration config = builder.build();
+		
+MetricManager.configure(config);
+```
+
+This needs to be done at application startup before any other interactions with the Metrics API.
+
+Note: *If you are logging from a device that has the stackify-agent installed, the environment setting is optional. We will use the environment associated to your device in Stackify.*
+
 #### Gauge Metric
 
 ```java

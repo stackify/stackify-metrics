@@ -15,6 +15,7 @@
  */
 package com.stackify.metric;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.stackify.api.common.ApiConfiguration;
+import com.stackify.api.common.ApiConfigurations;
 import com.stackify.api.common.AppIdentityService;
 import com.stackify.metric.impl.MetricBackgroundService;
 import com.stackify.metric.impl.MetricCollector;
@@ -34,8 +37,16 @@ import com.stackify.metric.impl.MetricSender;
  * @author Eric Martin
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({MetricManager.class, AppIdentityService.class, MetricMonitorService.class, MetricSender.class, MetricBackgroundService.class})
+@PrepareForTest({MetricManager.class, AppIdentityService.class, MetricMonitorService.class, MetricSender.class, MetricBackgroundService.class, ApiConfigurations.class})
 public class MetricManagerTest {
+
+	/**
+	 * tearDown
+	 */
+	@After
+	public void tearDown() {
+		MetricManager.shutdown();
+	}
 
 	/**
 	 * testGetCollectorAndShutdown
@@ -69,6 +80,42 @@ public class MetricManagerTest {
 
 		Assert.assertEquals(collector1, collector2);
 		
+		MetricManager.shutdown();
+		
+		Mockito.verify(background).stop();
+	}
+	
+	/**
+	 * testManualConfig
+	 * @throws Exception 
+	 */
+	@Test
+	public void testManualConfig() throws Exception {
+
+		PowerMockito.mockStatic(ApiConfigurations.class);
+		PowerMockito.when(ApiConfigurations.fromProperties()).thenThrow(new RuntimeException());
+		
+		ApiConfiguration config = Mockito.mock(ApiConfiguration.class);
+
+		MetricManager.configure(config);
+				
+		AppIdentityService ais = Mockito.mock(AppIdentityService.class);
+		PowerMockito.whenNew(AppIdentityService.class).withAnyArguments().thenReturn(ais);
+
+		MetricMonitorService mms = Mockito.mock(MetricMonitorService.class);
+		PowerMockito.whenNew(MetricMonitorService.class).withAnyArguments().thenReturn(mms);
+
+		MetricSender sender = Mockito.mock(MetricSender.class);
+		PowerMockito.whenNew(MetricSender.class).withAnyArguments().thenReturn(sender);
+
+		MetricBackgroundService background = PowerMockito.mock(MetricBackgroundService.class);
+		PowerMockito.whenNew(MetricBackgroundService.class).withAnyArguments().thenReturn(background);
+				
+		MetricCollector collector = MetricManager.getCollector();
+		Assert.assertNotNull(collector);
+		
+		Mockito.verify(background).start();
+				
 		MetricManager.shutdown();
 		
 		Mockito.verify(background).stop();

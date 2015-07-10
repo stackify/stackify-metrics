@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackify.api.common.ApiConfiguration;
 import com.stackify.api.common.ApiConfigurations;
 import com.stackify.api.common.AppIdentityService;
+import com.stackify.api.common.EnvironmentDetails;
 import com.stackify.metric.impl.MetricBackgroundService;
 import com.stackify.metric.impl.MetricCollector;
 import com.stackify.metric.impl.MetricMonitorService;
@@ -70,15 +71,42 @@ public class MetricManager {
 		
 		return COLLECTOR;
 	}
+	
+	/**
+	 * Manually configure the metrics api
+	 * @param config API configuration
+	 */
+	public static synchronized void configure(final ApiConfiguration config) {
 		
+		ApiConfiguration.Builder builder = ApiConfiguration.newBuilder();
+		
+		builder.apiUrl(config.getApiUrl());
+		builder.apiKey(config.getApiKey());
+		builder.application(config.getApplication());
+		builder.environment(config.getEnvironment());
+		
+		if (config.getEnvDetail() == null)
+		{
+			builder.envDetail(EnvironmentDetails.getEnvironmentDetail(config.getApplication(), config.getEnvironment()));
+		}
+		else
+		{
+			builder.envDetail(config.getEnvDetail());
+		}
+		
+		CONFIG = builder.build();
+	}
+	
 	/**
 	 * Start up the background thread that is processing metrics
 	 */
 	private static synchronized void startup() {
 		
 		try {
-			CONFIG = ApiConfigurations.fromProperties();
-							
+			if (CONFIG == null) {
+				CONFIG = ApiConfigurations.fromProperties();
+			}
+			
 			ObjectMapper objectMapper = new ObjectMapper();
 			
 			AppIdentityService appIdentityService = new AppIdentityService(CONFIG, objectMapper, true);
@@ -105,6 +133,8 @@ public class MetricManager {
 			} catch (Throwable t) {
 				LOGGER.error("Exception stopping Stackify Metrics API service", t);
 			}
+			
+			INITIALIZED.compareAndSet(true, false);
 		}
 	}
 	

@@ -8,7 +8,7 @@ API for sending custom metrics to Stackify.
 
 Custom Metrics Overview:
 
-http://docs.stackify.com/m/7787/l/232533
+http://support.stackify.com/hc/en-us/articles/205419705-Custom-Metrics-Overview
 
 Sign Up for a Trial:
 

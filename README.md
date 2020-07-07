@@ -21,7 +21,7 @@ Add it as a maven dependency:
 <dependency>
     <groupId>com.stackify</groupId>
     <artifactId>stackify-metrics</artifactId>
-    <version>INSERT_LATEST_MAVEN_CENTRAL_VERSION</version>
+    <version>2.1.1</version>
 </dependency>
 ```
 
@@ -210,7 +210,7 @@ counterAndTimer.autoReportZeroValue();
 
 ## License
 
-Copyright 2014 Stackify, LLC.
+Copyright 2020 Stackify, LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
